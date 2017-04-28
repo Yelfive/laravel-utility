@@ -1,8 +1,10 @@
 {
   "name": "fk/laravel-utility",
   "description": "Making laravel more practical",
-  "psr-4": {
-    "fk\\utility\\": ""
+  "autoload": {
+    "psr-4": {
+      "fk\\utility\\": ""
+    }
   },
   "min-stability": "dev-master"
 }
