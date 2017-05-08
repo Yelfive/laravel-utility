@@ -43,3 +43,13 @@ At last, you should set the `config/session.php` add
 ```
 'auto_start' => true,
 ```
+
+Also, remember to disable Laravel's start-on-every-request feature
+by comment the following if exists
+```
+# app\Http\Kernel
+
+public $middlewares = [
+//    \Illuminate\Session\Middleware\StartSession::class,
+]
+```
