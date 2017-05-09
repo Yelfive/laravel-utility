@@ -19,31 +19,12 @@ class Manager extends SessionManager
 
     protected $id = null;
 
-//    public function getRawId()
-//    {
-//        return $this->id;
-//    }
-
-//    public $isStarted = false;
-
     public $autoStartCallings = [
         'get', 'exists', 'has', 'all',
         'put', 'push', 'pull', 'flash', 'save',
         'forget', 'remove', 'flush', 'forget', 'migrate',
         'increment', 'decrement'
     ];
-
-    // terminate session
-    // first check if the session need terminating
-//    public function trySettingId()
-//    {
-//        $id = $this->id;
-//        $driver = $this->driver();
-//
-//        if (!method_exists($driver, 'isValidId') || $driver->isValidId($id)) {
-//            $driver->setId($this->id = $id);
-//        }
-//    }
 
     /**
      * @var null|callable
@@ -65,7 +46,6 @@ class Manager extends SessionManager
     }
 
     /**
-     * //     * @return null|string Returns token string, null if no token retrieved
      * @return bool Indicates if the token is retrieved
      */
     protected function retrieveToken():bool
@@ -77,12 +57,6 @@ class Manager extends SessionManager
 
         return empty($this->token);
     }
-
-//    protected function getId()
-//    {
-//        if (!is_string($this->id)) $this->id = $this->driver()->getId();
-//        return $this->id;
-//    }
 
     /**
      * Build the session instance.
@@ -127,33 +101,5 @@ class Manager extends SessionManager
 
         return $driver->$method(...$parameters);
     }
-
-    protected function isValidToken()
-    {
-
-    }
-
-//    public $rawId = null;
-
-    /**
-     * @param null|mixed|callable $callable
-     * If the param is callable, it should return a string indicates the session id
-     */
-//    public function setRawId($callable = null)
-//    {
-//        if (is_string($callable)) {
-//            $this->rawId = $callable;
-//        } else if (is_callable($callable)) {
-//            $this->rawId = $callable();
-//        } else if (is_null($callable)) {
-//            return;
-//        }
-//        throw new InvalidArgumentException('Parameter 1 should be string or callable: ', __METHOD__);
-//    }
-//
-//    public function hasRawId()
-//    {
-//        return is_string($this->rawId);
-//    }
 
 }

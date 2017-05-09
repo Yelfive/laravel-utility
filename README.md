@@ -38,6 +38,7 @@ public function register()
     fk\utility\Session\SessionServiceProvider::class
 ]
 ```
+Also remember not to define the `\Illuminate\Session\SessionServiceProvider`
 
 At last, you should set the `config/session.php` add
 ```
@@ -53,3 +54,7 @@ public $middlewares = [
 //    \Illuminate\Session\Middleware\StartSession::class,
 ]
 ```
+
+If you have your own rule of session id,
+you can overwrite the `\fk\utility\Session\SessionServiceProvider::getAccessToken`
+to achieve that
