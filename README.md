@@ -19,8 +19,11 @@ Making laravel more practical
         In fact, it works for any method that returns a `fk\utility\Database\Eloquent\Builder`
 #### Request
 
-- extends `fk\utility\Http\Request`
-- functionality
+- Class
+    - `fk\utility\Http\Request`
+- Usage
+    - Extends or use it for IOC
+- Functionality
     - Add support for Content-Type `multipart/form-data` for method `PUT`
 
 ### Session
