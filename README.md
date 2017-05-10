@@ -58,3 +58,23 @@ public $middlewares = [
 If you have your own rule of session id,
 you can overwrite the `\fk\utility\Session\SessionServiceProvider::getAccessToken`
 to achieve that
+
+# Easy Authentication
+
+#### Register Service Provider
+
+`fk\utility\Auth\Session\SessionGuardServiceProvider`
+
+#### Config
+```
+# auth.php
+
+return [
+    'guards' => [
+        'api' => [
+            'driver' => 'easy.token',
+            'model' => \App\Models\User::class, // The model to retrieve user from
+        ]
+    ]
+];
+```

@@ -38,7 +38,7 @@ class TokenGuard extends SessionGuard implements Guard
 
     protected function getToken()
     {
-        return $_SERVER['HTTP_X_ACCESS_TOKEN'];
+        return $_SERVER['HTTP_X_ACCESS_TOKEN'] ?? null;
     }
 
     /**
@@ -49,6 +49,7 @@ class TokenGuard extends SessionGuard implements Guard
      */
     public function validate(array $credentials = [])
     {
+
     }
 
     /**
