@@ -3,7 +3,7 @@ Making laravel more practical
 ### Database
 ##### Model
 
-- extends `fk\utility\Database\Eloquent\Model`
+- Usage: Just extends `fk\utility\Database\Eloquent\Model`
 - functionality
     - Add approach to get the sql to be executed.
         It's available by calling
@@ -22,7 +22,24 @@ Making laravel more practical
 - Class
     - `fk\utility\Http\Request`
 - Usage
+    - Capture at `public/index.php`
+    ```
+    # index.php, replace the default capture
+    $response = $kernel->handle(
+        $request = \fk\utility\Http\Request::capture()
+    );
+    ```
     - Extends or use it for IOC
+    - Register it's alias as `request`,
+      to ensure every instance fallback to the singleton instance
+      used to capture at entry index.php
+    ```#
+    # AppServiceProvider.php
+    public function reigster()
+    {
+        $this->app->alias('request', fk\utility\Http\Request::class);
+    }
+    ```
 - Functionality
     - Add support for Content-Type `multipart/form-data` for method `PUT`
 
