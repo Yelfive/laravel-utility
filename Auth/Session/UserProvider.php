@@ -52,7 +52,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         if (is_array($attributes)) {
             /** @var \Illuminate\Database\Eloquent\Model $user */
             $user = new $this->model;
-            return $user->fill($attributes);
+            return $user->setRawAttributes($attributes);
         }
         return null;
     }
