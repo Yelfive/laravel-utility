@@ -38,7 +38,7 @@ class TokenGuard extends SessionGuard implements Guard
 
     protected function getToken()
     {
-        return $_SERVER['HTTP_X_ACCESS_TOKEN'] ?? null;
+        return $this->request->server->get('HTTP_X_ACCESS_TOKEN', null);
     }
 
     /**

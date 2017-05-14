@@ -31,7 +31,7 @@ class SessionGuardServiceProvider extends ServiceProvider
         // - $name string Guard name, e.g. api
         // - $config array auth.$name
         Auth::extend('easy.token', function ($app, $name, $config) {
-            return new TokenGuard($name, new UserProvider($config), $this->app['session.store']);
+            return new TokenGuard($name, new UserProvider($config), $this->app['session.store'], $this->app['request']);
         });
 
     }
