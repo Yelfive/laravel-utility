@@ -98,3 +98,22 @@ return [
     ]
 ];
 ```
+
+# PHPUnit
+### TestCase
+- Class: `fk\utility\Foundation\Testing\TestCase`
+- Benefits: Output for json would be
+            human readable for Chinese characters
+- Usage:
+    ```
+
+    use \fk\utility\Foundation\Testing\TestCase;
+
+    class YourTest extends TestCase
+    {
+        // Write your own `CreateApplication`
+        // OR
+        // Write a `createApplication` method here
+        use CreateApplication;
+    }
+    ```
