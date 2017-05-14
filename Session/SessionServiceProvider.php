@@ -7,13 +7,10 @@
 
 namespace fk\utility\Session;
 
-use Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Session;
 
 class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
 {
-
-    protected $manger;
 
     /**
      * Register the session manager instance.
@@ -28,10 +25,13 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
             $manager->registerTokenRetriever(function () {
                 return $this->getAccessToken();
             });
-            return $this->manger = $manager;
+            return $manager;
         });
 
-        $this->registerTerminator();
+        $this->app->terminating(function () {
+            if (Session::isStarted()) Session::save();
+        });
+
     }
 
     /**
@@ -42,13 +42,4 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
         //
     }
 
-    public function terminate()
-    {
-        if ($this->manger instanceof SessionManager && Session::isStarted()) Session::save();
-    }
-
-    protected function registerTerminator()
-    {
-        register_shutdown_function([$this, 'terminate']);
-    }
 }

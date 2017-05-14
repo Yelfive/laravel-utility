@@ -8,9 +8,9 @@
 namespace fk\utility\Http;
 
 use fk\http\RestfulParser;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request as RequestBase;
 
-class SymfonyRequest extends Request
+class SymfonyRequest extends RequestBase
 {
     public static function createFromGlobals()
     {
