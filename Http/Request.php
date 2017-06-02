@@ -40,7 +40,11 @@ class Request extends \Illuminate\Http\Request
      */
     protected function customExpectsJson(): bool
     {
-        return strncmp('/' . Route::current()->uri, '/api/', 5) === 0;
+        if (Route::current() instanceof \Illuminate\Routing\Route) {
+            return strncmp('/' . Route::current()->uri, '/api/', 5) === 0;
+        } else {
+            return false;
+        }
     }
 
 }

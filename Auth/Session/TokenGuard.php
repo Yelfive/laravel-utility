@@ -62,7 +62,6 @@ class TokenGuard extends SessionGuard implements Guard
         parent::setUser($user);
         $provider = $this->provider;
         Session::put($provider::IDENTITY_KEY, $user->getAttributes());
-        Session::regenerate(true);
     }
 
 }
