@@ -27,6 +27,10 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
     /**
      * Retrieve a user by their unique identifier.
      *
+     * This is used to retrieve user data by TokenGuard::getName
+     *
+     * @see TokenGuard::getName
+     *
      * @param  mixed $identifier
      * @return Authenticatable|null
      */
