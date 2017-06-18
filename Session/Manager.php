@@ -10,6 +10,7 @@ namespace fk\utility\Session;
 use Illuminate\Session\EncryptedStore;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
+use Illuminate\Support\Arr;
 
 /**
  * @method \Illuminate\Contracts\Session\Session driver()
@@ -97,9 +98,47 @@ class Manager extends SessionManager
                 $driver->setId($this->id = $this->token);
             }
             $driver->start();
+
+            $this->collectGarbage();
         }
 
         return $driver->$method(...$parameters);
+    }
+
+    /**
+     * Remove the garbage from the session if necessary.
+     */
+    public function collectGarbage()
+    {
+        $config = $this->getSessionConfig();
+
+        // Here we will see if this request hits the garbage collection lottery by hitting
+        // the odds needed to perform garbage collection on any given request. If we do
+        // hit it, we'll call this handler to let it delete all the expired sessions.
+        if ($this->configHitsLottery($config)) {
+            $this->driver()->getHandler()->gc($this->getSessionLifetimeInSeconds());
+        }
+    }
+
+    /**
+     * Determine if the configuration odds hit the lottery.
+     *
+     * @param  array $config
+     * @return bool
+     */
+    protected function configHitsLottery(array $config)
+    {
+        return random_int(1, $config['lottery'][1]) <= $config['lottery'][0];
+    }
+
+    /**
+     * Get the session lifetime in seconds.
+     *
+     * @return int
+     */
+    protected function getSessionLifetimeInSeconds()
+    {
+        return Arr::get($this->getSessionConfig(), 'lifetime') * 60;
     }
 
 }
