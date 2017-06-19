@@ -18,7 +18,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
      * @var bool
      * @see dateAsInteger()
      */
-    protected static $serializeDateAsInteger = false;
+    public static $serializeDateAsInteger = false;
 
     /**
      * @var null|MessageBag
