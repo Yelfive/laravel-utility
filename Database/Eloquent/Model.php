@@ -8,6 +8,7 @@
 namespace fk\utility\Database\Eloquent;
 
 use DateTimeInterface;
+use fk\utility\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 
@@ -101,11 +102,25 @@ class Model extends \Illuminate\Database\Eloquent\Model
     }
 
     /**
+     * Replace the Builder with fk one
      * @inheritdoc
      */
     public function newEloquentBuilder($query)
     {
         return new Builder($query);
+    }
+
+    /**
+     * Replace the Query\Builder with fk one
+     * @inheritdoc
+     */
+    protected function newBaseQueryBuilder()
+    {
+        $connection = $this->getConnection();
+
+        return new QueryBuilder(
+            $connection, $connection->getQueryGrammar(), $connection->getPostProcessor()
+        );
     }
 
     /**

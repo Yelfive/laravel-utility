@@ -17,6 +17,21 @@ Making laravel more practical
         echo $model;
         ```
         In fact, it works for any method that returns a `fk\utility\Database\Eloquent\Builder`
+
+    - Modify pagination
+        - add access to custom fields when calling `toArray`
+        - add access to `toFKStyle`
+    - Model::select related
+
+        > Being able to using alias like following,
+            see `\fk\utility\Database\Query\Builder::select` for more
+
+        ```php
+        <?php
+
+          \fk\utility\Database\Eloquent\Model::select(['alias' => ['fields']]);
+        ```
+
 #### Request
 
 - Class
