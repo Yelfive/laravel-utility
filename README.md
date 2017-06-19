@@ -105,6 +105,7 @@ return [
 - Benefits: Output for json would be
             human readable for Chinese characters
 - Usage:
+
     ```
 
     use \fk\utility\Foundation\Testing\TestCase;
@@ -117,3 +118,52 @@ return [
         use CreateApplication;
     }
     ```
+# ACL Check
+
+- Class: `fk\utility\Auth\Middleware\AclAuthenticate`
+- Usages:
+
+    - Create your own authentication class to place your rules
+
+        ```php
+        <?php
+
+        use fk\utility\Auth\Middleware\AclAuthenticate;
+
+        class MyAuthenticate extends AclAuthenticate
+        {
+            public function authenticate(): bool
+            {
+                // Write your own authentication here
+                // If false returned, a `Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException` exception will be thrown
+                // otherwise, authentication will pass.
+                // Feel free to throw any kind of exceptions that fits you
+            }
+        }
+        ```
+
+    - Register at `App\Http\Kernel`
+
+        ```php
+          <?php
+
+          class Kernel
+          {
+
+              protected $routeMiddleware = [
+                  'auth.acl' => \App\Http\Middleware\MyAuthenticate::class,
+              ];
+          }
+        ```
+
+    - Good to go. Define a route using middleware `auth.acl`
+
+        ```php
+          <?php
+
+          Route::group(['middleware' => 'auth.acl'], function () {
+              Route::get('sth', 'SomeController@someMethod');
+              // ... stuff
+          });
+
+        ```

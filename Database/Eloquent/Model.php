@@ -73,6 +73,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
             $attributes = array_diff_key($attributes, array_flip($except));
         }
 
+        $attributes = $this->addDateAttributesToArray($attributes);
         return $attributes;
     }
 

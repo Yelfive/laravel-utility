@@ -25,26 +25,21 @@ class Request extends \Illuminate\Http\Request
      */
     public function expectsJson()
     {
-        if ($this->customExpectsJson()) {
-            return true;
+        if (is_bool($this->_expectsJson)) {
+            return $this->_expectsJson;
         } else {
             return parent::expectsJson();
         }
     }
 
+    private $_expectsJson = null;
+
     /**
-     * Overwrite it if you have custom expects json
-     * @return bool
-     * - false to go on the Laravel expects json check
-     * - true to indicates expects json
+     * @param callable|bool $expects
      */
-    protected function customExpectsJson(): bool
+    public function setExpectsJson($expects)
     {
-        if (Route::current() instanceof \Illuminate\Routing\Route) {
-            return strncmp('/' . Route::current()->uri, '/api/', 5) === 0;
-        } else {
-            return false;
-        }
+        $this->_expectsJson = is_callable($expects) ? call_user_func($expects) : $expects;
     }
 
 }

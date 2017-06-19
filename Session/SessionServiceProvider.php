@@ -25,6 +25,7 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
             $manager->registerTokenRetriever(function () {
                 return $this->getAccessToken();
             });
+
             return $manager;
         });
 
@@ -41,5 +42,4 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
     {
         //
     }
-
 }
