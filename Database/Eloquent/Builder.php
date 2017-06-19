@@ -7,8 +7,30 @@
 
 namespace fk\utility\Database\Eloquent;
 
+use fk\utility\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+
 class Builder extends \Illuminate\Database\Eloquent\Builder
 {
+
+    /**
+     * @inheritdoc
+     */
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        $page = $page ?: Paginator::resolveCurrentPage($pageName);
+
+        $perPage = $perPage ?: $this->model->getPerPage();
+
+        $results = ($total = $this->toBase()->getCountForPagination())
+            ? $this->forPage($page, $perPage)->get($columns)
+            : $this->model->newCollection();
+
+        return new LengthAwarePaginator($results, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+    }
 
     public function rawSql(): string
     {
