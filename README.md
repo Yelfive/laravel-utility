@@ -11,6 +11,7 @@ Making laravel more practical
         <?php
 
         use fk\utility\Database\Eloquent\Model;
+        /** @var  \fk\utility\Database\Eloquent\Builder $model */
         $model = Model::find(1);
         $model->rawSql();
         // or simply call, witch applies the __toString method
