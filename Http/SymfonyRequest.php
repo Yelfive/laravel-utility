@@ -18,7 +18,7 @@ class SymfonyRequest extends RequestBase
         /** @var array $_post */
         if ($needParse) {
             $_post = $_POST;
-            $_POST = RestfulParser::parseFormData(file_get_contents('php://input'));
+            $_POST = RestfulParser::parseFormData();
         }
         $request = parent::createFromGlobals();
         if ($needParse) $_POST = $_post;
