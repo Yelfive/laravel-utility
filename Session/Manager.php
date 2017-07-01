@@ -47,11 +47,23 @@ class Manager extends SessionManager
     }
 
     /**
+     * Retrieves the token and return if token retrieved
      * @return bool Indicates if the token is retrieved
      */
-    protected function retrieveToken():bool
+    protected function retrieveToken(): bool
     {
-        if (!$this->retrieverCalled && is_callable($this->tokenRetriever)) {
+        /*
+         +------------------------------------------------------------------------
+         | Session may be set, session id exists, but not started.
+         | In which case, session id should not be taken from `retrieveToken`
+         | Such as `\Illuminate\Auth\SessionGuard::updateSession`,
+         | which stores session, generates session id, but does not start the session.
+         | This is an issue of Laravel.
+         +------------------------------------------------------------------------
+         */
+        if ($token = $this->driver()->getId()) {
+            $this->token = $token;
+        } else if (!$this->retrieverCalled && is_callable($this->tokenRetriever)) {
             $this->token = call_user_func($this->tokenRetriever);
         }
         $this->retrieverCalled = true;
@@ -93,8 +105,17 @@ class Manager extends SessionManager
 
         // When no `rawId` given, it will have the behavior the Laravel has
         // When `rawId` given
-        if (config('session.auto_start', false) && in_array($method, $this->autoStartCallings) && !$driver->isStarted()) {
-            if ($this->retrieveToken() && !method_exists($driver, 'isValidId') || $driver->isValidId($this->token)) {
+        if (
+            config('session.auto_start', false)
+            && in_array($method, $this->autoStartCallings)
+            && !$driver->isStarted()
+        ) {
+            if (
+                // If token retrieved
+                $this->retrieveToken()
+                // And if the token is a valid one
+                && !method_exists($driver, 'isValidId') || $driver->isValidId($this->token)
+            ) {
                 $driver->setId($this->id = $this->token);
             }
             $driver->start();

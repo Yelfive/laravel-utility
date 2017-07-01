@@ -22,7 +22,7 @@ class SessionGuardServiceProvider extends ServiceProvider
      * Defines how to retrieve data
      * ------------------------------------------------
      *
-     * @see Illuminate\Auth\AuthManager::resolve()
+     * @see \Illuminate\Auth\AuthManager::resolve()
      */
     public function register()
     {
@@ -35,6 +35,4 @@ class SessionGuardServiceProvider extends ServiceProvider
         });
 
     }
-    // TODO: Allow to define own rule for retrieving session id at SessionGuardServiceProvider
-    // TODO: exception handler, return json all the time, see result when `TokenGuard::check` returns false
 }

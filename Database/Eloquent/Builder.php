@@ -10,6 +10,10 @@ namespace fk\utility\Database\Eloquent;
 use fk\utility\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 
+/**
+ * @method $this where(string | \Closure | array $column, string $operator = null, $value = null, $boolean = 'and')
+ * @method $this orWhere(string | \Closure | array $column, string $operator = null, $value = null, $boolean = 'and')
+ */
 class Builder extends \Illuminate\Database\Eloquent\Builder
 {
 
