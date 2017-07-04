@@ -54,10 +54,12 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
         }
         $attributes = Session::get(self::IDENTITY_KEY);
         if (is_array($attributes)) {
-            /** @var \Illuminate\Database\Eloquent\Model $user */
+            /** @var \Illuminate\Database\Eloquent\Model|Authenticatable $user */
             $user = new $this->model;
             $user->exists = true;
-            return $user->setRawAttributes($attributes);
+            $user->setRawAttributes($attributes)
+                ->syncOriginal();
+            return $user;
         }
         return null;
     }
