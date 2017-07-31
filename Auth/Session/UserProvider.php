@@ -63,7 +63,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
             /** @var \Illuminate\Database\Eloquent\Model|Authenticatable $user */
             if ($this->checkExits) {
                 $user = new $this->model;
-                $exists = $user->where([['id' => $attributes['id']]])->count();
+                $exists = $user->where(['id' => $attributes['id']])->count();
                 if (!$exists) return null;
             }
 
