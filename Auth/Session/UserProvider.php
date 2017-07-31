@@ -18,10 +18,16 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
     const IDENTITY_KEY = '__profile';
 
     protected $model;
+    protected $checkExits = false;
 
+    /**
+     * UserProvider constructor.
+     * @param array $config config('auth.<name>')
+     */
     public function __construct($config)
     {
         $this->model = $config['model'];
+        $this->checkExits = $config['checkExists'] ?? $this->checkExits;
     }
 
     /**
@@ -53,7 +59,14 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
             Session::start();
         }
         $attributes = Session::get(self::IDENTITY_KEY);
-        if (is_array($attributes)) {
+        if (is_array($attributes) && isset($attributes['id'])) {
+            if ($this->checkExits) {
+                /** @var \Illuminate\Database\Eloquent\Model|Authenticatable $user */
+                $user = new $this->model;
+                $exists = $user->where([['id' => $attributes['id']]])->count();
+                if (!$exists) return null;
+            }
+
             /** @var \Illuminate\Database\Eloquent\Model|Authenticatable $user */
             $user = new $this->model;
             $user->exists = true;
