@@ -1,7 +1,10 @@
 # Utilities
+
 Making laravel more practical
-### Database
-##### Model
+
+## Database
+
+### Model
 
 - Usage: Just extends `fk\utility\Database\Eloquent\Model`
 - functionality
@@ -33,7 +36,7 @@ Making laravel more practical
           \fk\utility\Database\Eloquent\Model::select(['alias' => ['fields']]);
         ```
 
-#### Request
+## Request
 
 - Class
     - `fk\utility\Http\Request`
@@ -59,7 +62,8 @@ Making laravel more practical
 - Functionality
     - Add support for Content-Type `multipart/form-data` for method `PUT`
 
-### Session
+## Session
+
 Allow session to be actually applied just when called. Not when requested.
 This is useful for RESTFul APIs, for some doesn't need a session.
 ```
@@ -74,15 +78,18 @@ public function register()
     fk\utility\Session\SessionServiceProvider::class
 ]
 ```
+
 Also remember not to define the `\Illuminate\Session\SessionServiceProvider`
 
 At last, you should set the `config/session.php` add
+
 ```
 'auto_start' => true,
 ```
 
 Also, remember to disable Laravel's start-on-every-request feature
 by comment the following if exists
+
 ```
 # app\Http\Kernel
 
@@ -95,14 +102,17 @@ If you have your own rule of session id,
 you can overwrite the `\fk\utility\Session\SessionServiceProvider::getAccessToken`
 to achieve that
 
-# Easy Authentication
+## Easy Authentication
 
-#### Register Service Provider
+### Register Service Provider
 
 `fk\utility\Auth\Session\SessionGuardServiceProvider`
 
-#### Config
-```
+### Config
+
+```php
+<?php
+
 # auth.php
 
 return [
@@ -115,17 +125,20 @@ return [
 ];
 ```
 
-# PHPUnit
+## PHPUnit
+
 ### TestCase
+
 - Class: `fk\utility\Foundation\Testing\TestCase`
 - Benefits: Output for json would be
             human readable for Chinese characters
 - Usage:
 
-    ```
-
+    ```php
+    <?php
+    
     use \fk\utility\Foundation\Testing\TestCase;
-
+    
     class YourTest extends TestCase
     {
         // Write your own `CreateApplication`
@@ -134,7 +147,7 @@ return [
         use CreateApplication;
     }
     ```
-# ACL Check
+## ACL Check
 
 - Class: `fk\utility\Auth\Middleware\AclAuthenticate`
 - Usages:
@@ -143,9 +156,9 @@ return [
 
         ```php
         <?php
-
+        
         use fk\utility\Auth\Middleware\AclAuthenticate;
-
+        
         class MyAuthenticate extends AclAuthenticate
         {
             public function authenticate(): bool
@@ -162,10 +175,10 @@ return [
 
         ```php
           <?php
-
+        
           class Kernel
           {
-
+        
               protected $routeMiddleware = [
                   'auth.acl' => \App\Http\Middleware\MyAuthenticate::class,
               ];
@@ -176,10 +189,10 @@ return [
 
         ```php
           <?php
-
+        
           Route::group(['middleware' => 'auth.acl'], function () {
               Route::get('sth', 'SomeController@someMethod');
               // ... stuff
           });
-
+        
         ```
