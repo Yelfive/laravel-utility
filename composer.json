@@ -2,8 +2,8 @@
   "name": "fk/laravel-utility",
   "description": "Making laravel more practical",
   "require": {
-    "laravel\\laravel": ">=5",
-    "fk\\http-status": "*"
+    "laravel/laravel": ">=5",
+    "fk/http-status": "*"
   },
   "autoload": {
     "psr-4": {
