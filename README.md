@@ -66,17 +66,31 @@ Making laravel more practical
 
 Allow session to be actually applied just when called. Not when requested.
 This is useful for RESTFul APIs, for some doesn't need a session.
-```
-# AppServiceProvider
-public function register()
-{
-    $this->app->register(fk\utility\Session\SessionServiceProvider::class);
-}
-# or add to config/app.php
 
-'providers' => [
-    fk\utility\Session\SessionServiceProvider::class
-]
+###  AppServiceProvider
+
+```php
+<?php
+
+class AppServiceProvider {
+    
+    public function register()
+    {
+        $this->app->register(fk\utility\Session\SessionServiceProvider::class);
+    }
+}
+```
+
+### or add to config/app.php
+
+```php
+<?php
+
+[
+    'providers' => [
+        fk\utility\Session\SessionServiceProvider::class
+    ]
+];
 ```
 
 Also remember not to define the `\Illuminate\Session\SessionServiceProvider`
