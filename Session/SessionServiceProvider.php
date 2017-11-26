@@ -26,8 +26,10 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
                 return $this->getAccessToken();
             });
 
+            $this->app->get('request')->setLaravelSession($manager);
             return $manager;
         });
+
 
         $this->app->terminating(function () {
             if (Session::isStarted()) Session::save();

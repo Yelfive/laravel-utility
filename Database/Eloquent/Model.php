@@ -9,8 +9,8 @@ namespace fk\utility\Database\Eloquent;
 
 use DateTimeInterface;
 use fk\utility\Database\Query\Builder as QueryBuilder;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Validator;
 
 class Model extends \Illuminate\Database\Eloquent\Model
 {
@@ -25,6 +25,11 @@ class Model extends \Illuminate\Database\Eloquent\Model
      * @var null|MessageBag
      */
     public $errors = null;
+
+    /**
+     * @var null|\Illuminate\Validation\Validator
+     */
+    public $validator = null;
 
     public function __construct(array $attributes = [])
     {
@@ -54,7 +59,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     public function validate(array $attributes = null)
     {
-        $validator = Validator::make(is_array($attributes) ? $attributes : $this->attributes, $this->_rules);
+        $this->validator = $validator = Validator::make(is_array($attributes) ? $attributes : $this->attributes, $this->_rules);
         if ($validator->passes()) {
             return true;
         } else {

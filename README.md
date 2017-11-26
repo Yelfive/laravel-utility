@@ -56,7 +56,7 @@ Making laravel more practical
     # AppServiceProvider.php
     public function reigster()
     {
-        $this->app->alias('request', fk\utility\Http\Request::class);
+        $this->app->alias('request', \fk\utility\Http\Request::class);
     }
     ```
 - Functionality
@@ -76,7 +76,7 @@ class AppServiceProvider {
     
     public function register()
     {
-        $this->app->register(fk\utility\Session\SessionServiceProvider::class);
+        $this->app->register(\fk\utility\Session\SessionServiceProvider::class);
     }
 }
 ```
@@ -93,7 +93,7 @@ class AppServiceProvider {
 ];
 ```
 
-Also remember not to define the `\Illuminate\Session\SessionServiceProvider`
+Also remember cancel registering of the `\Illuminate\Session\SessionServiceProvider`
 
 At last, you should set the `config/session.php` add
 
@@ -170,6 +170,8 @@ return [
 
         ```php
         <?php
+        
+        namespace App\Http\Middleware;
         
         use fk\utility\Auth\Middleware\AclAuthenticate;
         

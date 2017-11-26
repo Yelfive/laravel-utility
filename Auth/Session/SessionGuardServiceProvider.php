@@ -7,6 +7,7 @@
 
 namespace fk\utility\Auth\Session;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,10 +28,12 @@ class SessionGuardServiceProvider extends ServiceProvider
     public function register()
     {
         // Extends a guard driver
-        // - $app Application
-        // - $name string Guard name, e.g. api
-        // - $config array auth.$name
         Auth::extend('easy.token', function ($app, $name, $config) {
+            /**
+             * @var Application $app
+             * @var string $name  Guard name
+             * @var array $config e.g. config(auth.$name)
+             */
             return new TokenGuard($name, new UserProvider($config), $this->app['session.store'], $this->app['request']);
         });
 
