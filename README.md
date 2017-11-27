@@ -23,8 +23,10 @@ Making laravel more practical
         In fact, it works for any method that returns a `fk\utility\Database\Eloquent\Builder`
 
     - Modify pagination
+
         - add access to custom fields when calling `toArray`
         - add access to `toFKStyle`
+
     - Model::select related
 
         > Being able to using alias like following,

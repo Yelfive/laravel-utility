@@ -31,6 +31,8 @@ class Model extends \Illuminate\Database\Eloquent\Model
      */
     public $validator = null;
 
+    protected $messages = [];
+
     public function __construct(array $attributes = [])
     {
         $this->fillable(array_keys($this->_getRules()));
@@ -59,7 +61,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     public function validate(array $attributes = null)
     {
-        $this->validator = $validator = Validator::make(is_array($attributes) ? $attributes : $this->attributes, $this->_rules);
+        $this->validator = $validator = Validator::make(is_array($attributes) ? $attributes : $this->attributes, $this->_rules, $this->messages);
         if ($validator->passes()) {
             return true;
         } else {
@@ -70,6 +72,10 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     public function getAttributes(array $accept = null, array $except = null)
     {
+
+        $timestamps = $this->timestamps;
+        // Set `timestamps` to true to pass the timestamps to formatting
+        $this->timestamps = true;
         $attributes = $this->attributes;
         if ($accept && is_array($accept)) {
             $attributes = array_intersect_key($attributes, array_flip($accept));
@@ -80,7 +86,14 @@ class Model extends \Illuminate\Database\Eloquent\Model
         }
 
         $attributes = $this->addDateAttributesToArray($attributes);
+
+        $this->timestamps = $timestamps;
         return $attributes;
+    }
+
+    public function hasAttribute($name)
+    {
+        return in_array($name, $this->fillable);
     }
 
     /**

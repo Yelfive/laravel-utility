@@ -8,10 +8,11 @@
 namespace fk\utility\Http;
 
 use Exception;
-use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use fk\http\StatusCode as HttpStatusCode;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 /**
  * @method $this code(int $code = 200)
@@ -27,7 +28,7 @@ use fk\http\StatusCode as HttpStatusCode;
  * @property array $list
  * @property array $extend
  */
-class Result implements Jsonable
+class Result extends Response
 {
 
     /**
@@ -207,5 +208,15 @@ class Result implements Jsonable
     public static function instance(bool $codeInBody = true)
     {
         return new static($codeInBody);
+    }
+
+    public function prepare(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $this->setStatusCode($this->code);
+        $this->setContent($this->toJson());
+        $this->headers = new ResponseHeaderBag([
+            'Content-Type' => 'application/json;charset=utf-8',
+        ]);
+        return parent::prepare($request);
     }
 }
