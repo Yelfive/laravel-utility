@@ -9,6 +9,5 @@
     "psr-4": {
       "fk\\utility\\": ""
     }
-  },
-  "min-stability": "dev-master"
+  }
 }
