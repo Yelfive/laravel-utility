@@ -7,9 +7,6 @@
 
 namespace fk\utility\Http;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Route;
-
 class Request extends \Illuminate\Http\Request
 {
 
