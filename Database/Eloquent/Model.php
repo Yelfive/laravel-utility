@@ -61,11 +61,19 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     public function validate(array $attributes = null)
     {
-        $this->validator = $validator = Validator::make(is_array($attributes) ? $attributes : $this->attributes, $this->_rules, $this->messages);
-        if ($validator->passes()) {
+        if ($this->exists) {
+            if (!is_array($attributes)) $attributes = $this->getDirty();
+            $rules = array_intersect_key($this->_rules, $attributes);
+        } else {
+            $attributes = $this->attributes;
+            $rules = $this->_rules;
+        }
+
+        $this->validator = Validator::make($attributes, $rules, $this->messages);
+        if ($this->validator->passes()) {
             return true;
         } else {
-            $this->errors = $validator->errors();
+            $this->errors = $this->validator->errors();
             return false;
         }
     }
