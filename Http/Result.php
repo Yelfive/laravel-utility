@@ -14,6 +14,11 @@ class Result extends \fk\helpers\Result implements Responsable
 {
 
     /**
+     * @var bool Whether to render code as HTTP Status Code
+     */
+    protected $codeAsStatus = true;
+
+    /**
      * Create an HTTP response that represents the object.
      *
      * @param  \Illuminate\Http\Request $request
@@ -22,8 +27,14 @@ class Result extends \fk\helpers\Result implements Responsable
     public function toResponse($request)
     {
         $response = new Response();
-        return $response->setStatusCode($this->code)
-            ->header('Content-Type', 'application/json;charset=utf-8')
+        if ($this->codeAsStatus) $response->setStatusCode($this->code);
+        return $response->header('Content-Type', 'application/json;charset=utf-8')
             ->setContent($this->toJson());
+    }
+
+    public function codeAsStatus($codeAsStatus = true)
+    {
+        $this->codeAsStatus = $codeAsStatus;
+        return $this;
     }
 }
