@@ -31,7 +31,7 @@ class TokenGuard extends SessionGuard implements Guard
     {
         if (!$this->user) {
             $identifier = $this->getToken();
-            $this->user = $this->provider->retrieveByToken($identifier, '');
+            $this->user = $this->provider->retrieveByToken($identifier, $this->getName());
         }
         return $this->user;
     }

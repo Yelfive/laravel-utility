@@ -58,7 +58,11 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
             Session::setId($identifier);
             Session::start();
         }
+
+        if (!Session::get($token)) return null;
+
         $attributes = Session::get(self::IDENTITY_KEY);
+
         if (is_array($attributes) && isset($attributes['id'])) {
             /** @var \Illuminate\Database\Eloquent\Model|Authenticatable $user */
             if ($this->checkExits) {

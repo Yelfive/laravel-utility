@@ -124,6 +124,23 @@ to achieve that
 
 `fk\utility\Auth\Session\SessionGuardServiceProvider`
 
+which is totally independent of `SessionServiceProvider`
+
+
+```php
+<?php
+
+class AppServiceProvider
+{
+    public function register()
+    {
+        $this->app->register(fk\utility\Auth\Session\SessionGuardServiceProvider::class);
+    }
+}
+
+```
+
+
 ### Config
 
 ```php
@@ -136,10 +153,15 @@ return [
         'api' => [
             'driver' => 'easy.token',
             'model' => \App\Models\User::class, // The model to retrieve user from
+            'checkExists' => false, // whether to check `count` in database on every request
         ]
     ]
 ];
 ```
+
+Then you are good to go.
+
+This will automatically enable to retrieve token from header `X-Access-Token` as session id
 
 ## PHPUnit
 

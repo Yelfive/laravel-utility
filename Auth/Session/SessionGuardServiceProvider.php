@@ -36,6 +36,5 @@ class SessionGuardServiceProvider extends ServiceProvider
              */
             return new TokenGuard($name, new UserProvider($config), $this->app['session.store'], $this->app['request']);
         });
-
     }
 }
