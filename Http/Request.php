@@ -10,7 +10,7 @@ namespace fk\utility\Http;
 class Request extends \Illuminate\Http\Request
 {
 
-    public static function capture($enableMethodOverride = true)
+    public static function capture($enableMethodOverride = false)
     {
         if ($enableMethodOverride) static::enableHttpMethodParameterOverride();
 

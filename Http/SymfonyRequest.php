@@ -27,7 +27,7 @@ class SymfonyRequest extends RequestBase
             }, $_FILES);
         }
         $request = parent::createFromGlobals();
-        if ($needParse) $_POST = $_post;
+        if ($needParse) $_POST += $_post;
         if (isset($_files)) $_FILES = $_files;
 
         return $request;
