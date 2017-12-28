@@ -171,4 +171,13 @@ class Model extends \Illuminate\Database\Eloquent\Model
             return parent::serializeDate($date);
         }
     }
+
+    /**
+     * Change current model into collection of array
+     * @return Collection
+     */
+    public function toCollection()
+    {
+        return new Collection($this->toArray());
+    }
 }
