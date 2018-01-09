@@ -8,7 +8,6 @@
 namespace fk\utility\Console;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class InitDatabaseCommand extends Command
 {
@@ -19,11 +18,13 @@ class InitDatabaseCommand extends Command
     public function handle()
     {
         $config = config('database.connections.mysql');
-        DB::statement(<<<SQL
+        $pdo = new \PDO("mysql:host=${config['host']}", $config['username'], $config['password']);
+        $pdo->exec(<<<SQL
 CREATE DATABASE IF NOT EXISTS {$config['database']} CHARSET {$config['charset']} COLLATE {$config['collation']}
 SQL
         );
-        DB::selectOne("SHOW DATABASES LIKE '%{$config['database']}%'")
+        $stmt = $pdo->query("SHOW DATABASES LIKE '%{$config['database']}%'");
+        $stmt->rowCount()
             ? $this->info('Database initialized.')
             : $this->error('Database initializing failed');
     }
