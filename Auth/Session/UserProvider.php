@@ -75,6 +75,10 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
             $user->exists = true;
             $user->setRawAttributes($attributes)
                 ->syncOriginal();
+            if (method_exists($user, 'refreshAuth') && $user->refreshAuth()) {
+                $user->refresh();
+                Session::pull(self::IDENTITY_KEY, $user->getAttributes());
+            }
             return $user;
         }
         return null;
