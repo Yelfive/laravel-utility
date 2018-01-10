@@ -77,7 +77,7 @@ class UserProvider implements \Illuminate\Contracts\Auth\UserProvider
                 ->syncOriginal();
             if (method_exists($user, 'refreshAuth') && $user->refreshAuth()) {
                 $user->refresh();
-                Session::pull(self::IDENTITY_KEY, $user->getAttributes());
+                Session::put(self::IDENTITY_KEY, $user->getAttributes());
             }
             return $user;
         }
