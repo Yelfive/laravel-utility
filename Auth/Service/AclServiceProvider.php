@@ -16,9 +16,12 @@ class AclServiceProvider extends \Illuminate\Support\ServiceProvider
     public function boot()
     {
         $this->publishes([
+            // config
             __DIR__ . '/../../../helpers/src/privilege/menu.php' => config_path('/menu.php'),
             // migrate
-            __DIR__ . '/InitAclMigration.php' => database_path('migrations') . '/2017_11_24_023935_InitAclMigration.php'
+            __DIR__ . '/InitAclMigration.php' => database_path('migrations') . '/2017_11_24_023935_InitAclMigration.php',
+            // middleware
+            __DIR__ . '/AclAuthenticateMiddleware.php.tpl' => app_path('/Http/Middleware/AclAuthenticateMiddleware.php'),
         ]);
         $this->shutdown();
     }
@@ -78,7 +81,7 @@ class AclServiceProvider extends \Illuminate\Support\ServiceProvider
         if (isset($middleware['auth.acl'])) return $this->log('Skipped: auth.acl already loaded.');
 
         $key = 'auth.acl';
-        $middleware[$key] = \fk\utility\Auth\Service\AclServiceProvider::class;
+        $middleware[$key] = \App\Http\Middleware\AclAuthenticate::class;
 
         $pattern = '/(protected\s*\$routeMiddleware\s*=\s*\[)([^];]*)(\];)/';
         $space = str_repeat(' ', 8);
