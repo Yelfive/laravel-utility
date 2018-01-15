@@ -28,10 +28,13 @@ class AclServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function shutdown()
     {
+        if (empty($_SERVER['argv'][1]) || $_SERVER['argv'][1] !== 'vendor:publish') return;
+
         register_shutdown_function(function () {
             $this->info('Running migrate');
             try {
                 Artisan::call('migrate');
+                $this->info('Migrated');
             } catch (\Exception $e) {
                 echo $e->getMessage();
                 echo "\n";
@@ -60,8 +63,15 @@ class AclServiceProvider extends \Illuminate\Support\ServiceProvider
             ]);
             $content = Artisan::output();
             if ($model === \App\Models\Admin::class) {
-                $pattern = "/(?<=class $basename extends Model)/";
+                $pattern = "/(?<=class $basename extends Model )/";
                 $content = preg_replace($pattern, ' implements \Illuminate\Contracts\Auth\Authenticatable', $content);
+                $content = preg_replace('/(?<=Authenticatable\n{)(?=\n)/', <<<'EOF'
+
+    public const TYPE_ROOT = 1;
+    public const TYPE_SYSTEM = 2;
+    public const TYPE_COMPANY = 3;
+EOF
+                    , $content);
             }
             file_put_contents("$dir/$basename.php", $content);
             $this->info("Model generated: $model");
