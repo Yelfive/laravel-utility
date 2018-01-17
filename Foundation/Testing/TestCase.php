@@ -44,4 +44,10 @@ abstract class TestCase extends TestCaseBase
     {
         return TestResponse::fromBaseResponse($response);
     }
+
+    public function get($uri, array $data = [], array $headers = [])
+    {
+        if ($data) $uri .= (strpos($uri, '?') ? '&' : '?') . http_build_query($data);
+        return parent::get($uri, $headers);
+    }
 }
