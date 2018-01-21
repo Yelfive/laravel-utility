@@ -16,7 +16,7 @@ class InitAclMigration extends Migration
         $prefix = DB::getTablePrefix();
         DB::statement(<<<SQL
 CREATE TABLE IF NOT EXISTS `{$prefix}admin` (
-	`id` INT NOT NULL AUTO_INCREMENT,
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	`username` VARCHAR(20) NOT NULL COMMENT 'Username to login with',
 	`nickname` VARCHAR(50) NOT NULL COMMENT 'Display name',
 	`type` TINYINT UNSIGNED NOT NULL COMMENT '0=root;1=platform admin;2=company admin',

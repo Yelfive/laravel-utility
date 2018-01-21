@@ -24,6 +24,14 @@ class AclAuthenticate
     {
         if ($this->authenticate()) return $next($request);
 
+        $this->accessDenied();
+    }
+
+    /**
+     * Called when access is denied
+     */
+    protected function accessDenied()
+    {
         throw new AccessDeniedHttpException('Unauthenticated.');
     }
 

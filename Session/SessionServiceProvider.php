@@ -26,7 +26,8 @@ class SessionServiceProvider extends \Illuminate\Session\SessionServiceProvider
                 return $this->getAccessToken();
             });
 
-            $this->app->get('request')->setLaravelSession($manager);
+            $request =  $this->app->get('request');
+            $request->setLaravelSession($manager);
             return $manager;
         });
 
