@@ -33,26 +33,7 @@ class Model extends \Illuminate\Database\Eloquent\Model
 
     protected $messages = [];
 
-    public function __construct(array $attributes = [])
-    {
-        $this->fillable(array_keys($this->_getRules()));
-
-        parent::__construct($attributes);
-    }
-
-    private $_rules;
-
-    private final function _getRules()
-    {
-        if (is_array($this->_rules)) {
-            return $this->_rules;
-        }
-        $this->_rules = $this->rules();
-
-        if (!is_array($this->_rules)) $this->_rules = [];
-
-        return $this->_rules;
-    }
+    protected $guarded = [];
 
     public function rules()
     {
